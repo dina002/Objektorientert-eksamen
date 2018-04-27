@@ -1,5 +1,6 @@
 package server;
 
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,49 +9,41 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Server {
-	private String ip = "localhost";
-	private int port = 80;
+public class Server implements Runnable {
+	
+	private String ip;
+	private int port;
 	private Scanner scanner = new Scanner(System.in);
-	private final int WIDTH = 500;
-	private final int HEIGHT = 500;
 	private Thread thread;
 	private Socket socket;
-	private boolean accepted = false;
 	private DataOutputStream dos;
 	private DataInputStream dis;
+	private boolean unableToCommunicateWithOpponent = false;
 	private ServerSocket serverSocket;
-	private String waitingString = "Venter på ny spiller";
+	private boolean accepted = false;
 	private int errors = 0;
-	private boolean yourTurn = false;
+
 	
 	public Server() {
-		System.out.println("Skriv inn IP: ");
+		System.out.println("Please input the IP: ");
 		ip = scanner.nextLine();
-		System.out.println("Skriv inn port: ");
+		System.out.println("Please input the port: ");
 		port = scanner.nextInt();
 		while (port < 1 || port > 65535) {
-			System.out.println("Porten kan ikke nås, velg en annen: ");
+			System.out.println("The port you entered was invalid, please input another port: ");
 			port = scanner.nextInt();
 		}
 		
 		if (!connect()) initializeServer();
 
-		thread = new Thread("Sjakk");
+		thread = new Thread(this, "Sjakk");
 		thread.start();
 	}
-	
-	public void run() {
-		while (true) {
-			
-			if (!accepted) {
-				listenForServerRequest();
-			}
 
-		}
-	}
 	
-	public void listenForServerRequest() {
+	
+	
+	private void listenForServerRequest() {
 		Socket socket = null;
 		try {
 			socket = serverSocket.accept();
@@ -63,7 +56,7 @@ public class Server {
 		}
 	}
 	
-	boolean connect() {
+	private boolean connect() {
 		try {
 			socket = new Socket(ip, port);
 			dos = new DataOutputStream(socket.getOutputStream());
@@ -77,7 +70,7 @@ public class Server {
 		return true;
 	}
 	
-	public void initializeServer() {
+	private void initializeServer() {
 		try {
 			serverSocket = new ServerSocket(port, 8, InetAddress.getByName(ip));
 		} catch (Exception e) {
@@ -85,5 +78,18 @@ public class Server {
 		}
 
 	}
+
+	@Override
+	public void run() {
+		while (true) {
+			if (!accepted) {
+				listenForServerRequest();
+			}
+		}
+	}
 }
+
+	
+	
+
 
