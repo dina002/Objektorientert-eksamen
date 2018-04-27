@@ -108,13 +108,7 @@ public class SjakkGUI extends JFrame {
 		    System.out.println(ex);
 		  }
 		
-		 public static void paint(Graphics g) {
-		        Graphics2D g2 = (Graphics2D) g;
-		        Image img = Toolkit.getDefaultToolkit().getImage("water.bmp");
-
-		        g2.drawImage(img, 45, 35, this);
-		        g2.finalize();
-		    }
+		 
 		
 		
 		
