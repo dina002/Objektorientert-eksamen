@@ -90,7 +90,7 @@ public class SjakkGUI extends JFrame {
 					img = ImageIO.read(getClass().getResource("/img/knightsvart.png"));
 					break;
 				case "K":
-					img = ImageIO.read(getClass().getResource("/img/kingsvart.jpg"));
+					img = ImageIO.read(getClass().getResource("/img/kingsvart.png"));
 					break;
 				case "Q":
 					img = ImageIO.read(getClass().getResource("/img/queensvart.png"));
