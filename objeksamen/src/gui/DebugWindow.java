@@ -1,7 +1,7 @@
 package gui;
 
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 import gui.SjakkGUI;
@@ -10,11 +10,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+//import javax.swing.text.SimpleAttributeSet;
+//import javax.swing.text.StyleConstants;
 
 import model.Messagetype;
 
+@SuppressWarnings("serial")
 public class DebugWindow extends JFrame implements Observer {
 	
 	private static final int W = 500;
@@ -48,6 +49,7 @@ public class DebugWindow extends JFrame implements Observer {
 	public void update(Observable o, Object arg) {
 		Messagetype m = (Messagetype) arg;
 		updateGUI(m.getMsg());
+		System.out.println("start| \n" + m.getMsg() +"\n |slutt ");
 		write(" #" + ++messagecount + " " + m.getType());
 		write(m.getMsg() + "\n --------------");		
 	}
@@ -55,54 +57,38 @@ public class DebugWindow extends JFrame implements Observer {
 	public void updateGUI(String arg) {
 		String[] linje = arg.split("\n");
 		String spill = null;
-		for(int i =0;i<=22;i++) {
-			String[] del = linje[i].split(" ");
-			//System.out.println(del[0]); //for debugging 
-			if(del[0].equals("Fen:")) {
-				
-				spill= del[1];
-				
-			}
-		}
-		// System.out.println(spill); // for debugging
-		
-		String[] rader = spill.split("/");
-		for(int rad = 0;rad <= 7; rad++) {
-			String[] brikke = rader[rad].split("");
-			if(brikke.length <= 1) {
-				
-			}
-			else {
-				for(int kolonne = 0; kolonne <= 7 ; kolonne++) {
+		if(linje.length>=22) {
+			for(int i =0;i<=21;i++) {
+				String[] del = linje[i].split(" ");
+				//System.out.println(del[0]); //for debugging 
+				if(del[0].equals("Fen:")) {
 					
-					System.out.println(brikke[kolonne]);
-					
-					gui.setbrikke(rad,kolonne,brikke[kolonne]);
+					spill= del[1];
 					
 				}
 			}
+			// System.out.println(spill); // for debugging
 			
+			String[] rader = spill.split("/");
+			for(int rad = 0;rad <= 7; rad++) {
+				String[] brikke = rader[rad].split("");
+				if(brikke.length <= 1) {
+					
+				}
+				else {
+					for(int kolonne = 0; (kolonne + 1) <= brikke.length ; kolonne++) {
+						
+						System.out.println(brikke[kolonne]);
+						
+						gui.setbrikke(rad,kolonne,brikke[kolonne]);
+						
+					}
+				}
+			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	}
 	
+	
 }
+

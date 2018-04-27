@@ -1,13 +1,14 @@
 package gui;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
+//import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 //import javafx.scene.paint.Color;
+
 
 @SuppressWarnings("serial")
 public class SjakkGUI extends JFrame {
@@ -63,60 +64,75 @@ public class SjakkGUI extends JFrame {
 	
 	public void setbrikke(int rad,int kolonne , String typeBrikke) {
 		Image img = null;
+		if(!isNumeric(typeBrikke)) {
+			try {
+				switch(typeBrikke) {
+				case "n":
+					img = ImageIO.read(getClass().getResource("/img/knighthvit.png"));
+					break;
+				case "k":
+					img = ImageIO.read(getClass().getResource("/img/kinghvit.png"));
+					break;
+				case "q":
+					img = ImageIO.read(getClass().getResource("/img/queenhvit.png"));
+					break;
+				case "r":
+					
+					img = ImageIO.read(getClass().getResource("/img/rookhvit.png"));
+					break;
+				case "b":
+					img = ImageIO.read(getClass().getResource("/img/bishophvit.png"));
+					break;
+				case "p":
+					img = ImageIO.read(getClass().getResource("/img/pawnhvit.png"));
+					break;
+				case "N":
+					img = ImageIO.read(getClass().getResource("/img/knightsvart.png"));
+					break;
+				case "K":
+					img = ImageIO.read(getClass().getResource("/img/kingsvart.jpg"));
+					break;
+				case "Q":
+					img = ImageIO.read(getClass().getResource("/img/queensvart.png"));
+					break;
+				case "R":
+					img = ImageIO.read(getClass().getResource("/img/rooksvart.png"));
+					break;
+				case "B":
+					img = ImageIO.read(getClass().getResource("/img/bishopsvart.png"));
+					break;
+				case "P":
+					img = ImageIO.read(getClass().getResource("/img/pawnsvart.png"));
+					break;
+				}
+			} catch (Exception ex) {
+			    System.out.println(ex);
+			  }
+			
+			 
+			
+			
+			
+			JButton knapp = sjakkKnapper[rad][kolonne];
+			knapp.setIcon(new ImageIcon(img));
+		}
 		
-		try {
-			switch(typeBrikke) {
-			case "n":
-				img = ImageIO.read(getClass().getResource("/img/knighthvit.png"));
-				break;
-			case "k":
-				img = ImageIO.read(getClass().getResource("/img/kinghvit.png"));
-				break;
-			case "q":
-				img = ImageIO.read(getClass().getResource("/img/queenhvit.png"));
-				break;
-			case "r":
-				
-				img = ImageIO.read(getClass().getResource("/img/rookhvit.png"));
-				break;
-			case "b":
-				img = ImageIO.read(getClass().getResource("/img/bishophvit.png"));
-				break;
-			case "p":
-				img = ImageIO.read(getClass().getResource("/img/pawnhvit.png"));
-				break;
-			case "N":
-				img = ImageIO.read(getClass().getResource("/img/knightsvart.png"));
-				break;
-			case "K":
-				img = ImageIO.read(getClass().getResource("/img/kingsvart.jpg"));
-				break;
-			case "Q":
-				img = ImageIO.read(getClass().getResource("/img/queensvart.png"));
-				break;
-			case "R":
-				img = ImageIO.read(getClass().getResource("/img/rooksvart.png"));
-				break;
-			case "B":
-				img = ImageIO.read(getClass().getResource("/img/bishopsvart.png"));
-				break;
-			case "P":
-				img = ImageIO.read(getClass().getResource("/img/pawnsvart.png"));
-				break;
-			}
-		} catch (Exception ex) {
-		    System.out.println(ex);
-		  }
-		
-		 
 		
 		
 		
-		JButton knapp = sjakkKnapper[rad][kolonne];
-		knapp.setIcon(new ImageIcon(img));
-		
-		
-		
+	}
+	
+	public static boolean isNumeric(String str)  
+	{  
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
 	}
 	
 	
