@@ -89,7 +89,7 @@ public class SjakkGUI extends JFrame {
 				img = ImageIO.read(getClass().getResource("/img/knightsvart.png"));
 				break;
 			case "K":
-				img = ImageIO.read(getClass().getResource("/img/kingsvart.png"));
+				img = ImageIO.read(getClass().getResource("/img/kingsvart.jpg"));
 				break;
 			case "Q":
 				img = ImageIO.read(getClass().getResource("/img/queensvart.png"));
@@ -112,7 +112,7 @@ public class SjakkGUI extends JFrame {
 		
 		
 		
-		JButton knapp = sjakkKnapper[kolonne][rad];
+		JButton knapp = sjakkKnapper[rad][kolonne];
 		knapp.setIcon(new ImageIcon(img));
 		
 		
