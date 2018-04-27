@@ -1,6 +1,8 @@
-package server;
 
-
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,11 +10,12 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
-
+//we use the built-in Java library ServerSocket to create our server.
+//specify the IP using the local IPv4 address which is assigned by your router. Normally something like 192.168.XX.XXX.﻿
 public class Server implements Runnable {
 	
-	private String ip;
-	private int port;
+	private String ip = "localhost";
+	private int port = 80;
 	private Scanner scanner = new Scanner(System.in);
 	private Thread thread;
 	private Socket socket;
@@ -40,9 +43,6 @@ public class Server implements Runnable {
 		thread.start();
 	}
 
-	
-	
-	
 	private void listenForServerRequest() {
 		Socket socket = null;
 		try {

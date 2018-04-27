@@ -1,0 +1,5 @@
+For å starte to klienter(Fungerer også med to forskjellige maskiner over nettverk), åpne CMD, skriv java -jar og dra .jar fila inn
+i CMD-vinduet. Maskinen som starter programmet først fungerer som server, så den andre klienten må føre inn IPv4 adressen
+til den første klienten + port.
+
+Dersom programmet kjøres på samme maskin kan man bruke localhost(127.0.0.1).
