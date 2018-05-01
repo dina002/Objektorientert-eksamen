@@ -5,11 +5,20 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 //we use the built-in Java library ServerSocket to create our server.
 //specify the IP using the local IPv4 address which is assigned by your router. Normally something like 192.168.XX.XXX.﻿
 public class Server implements Runnable {
@@ -27,7 +36,24 @@ public class Server implements Runnable {
 	private int errors = 0;
 
 	
-	public Server() {
+	public Server() throws ParserConfigurationException, SAXException, IOException {
+		
+		File file = new File("/config/Config.xml");
+		try {
+			Scanner sc = new Scanner(file);
+			while(sc.hasNext()) {
+				String line = sc.nextLine();
+				String str[] = line.split(":");
+				String ip = str[0];
+				String port = str[1];
+			}
+		} catch (IOException e) {
+			while (port < 1 || port > 65535) {
+				System.out.println("The port you entered was invalid, please input another port: ");
+			}
+			
+		}
+		/*
 		System.out.println("Please input the IP: ");
 		ip = scanner.nextLine();
 		System.out.println("Please input the port: ");
@@ -35,7 +61,9 @@ public class Server implements Runnable {
 		while (port < 1 || port > 65535) {
 			System.out.println("The port you entered was invalid, please input another port: ");
 			port = scanner.nextInt();
+		
 		}
+		*/
 		
 		if (!connect()) initializeServer();
 
