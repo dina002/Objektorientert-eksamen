@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Board {
-	
+
 	private JFrame frame;
 	private BufferedImage board;
 	private final int WIDTH = 500;
@@ -32,7 +32,7 @@ public class Board {
 	private boolean unableToCommunicateWithOpponent = false;
 	private int errors = 0;
 	private Font smallerFont = new Font("Verdana", Font.BOLD, 20);
-	
+
 	public Board() {
 		
 		painter = new Painter();
@@ -46,21 +46,22 @@ public class Board {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
-		
+
+
 	}
-	
+
 	public void run() {
 		while (true) {
 			painter.repaint();
 		}
 	}
-	
+
 	private void render(Graphics g) {
 		g.drawImage(board, 0, 0, null);
 	}
-	
-	
-	
+
+
+
 	private class Painter extends JPanel implements MouseListener {
 		private static final long serialVersionUID = 1L;
 
@@ -70,7 +71,7 @@ public class Board {
 			setBackground(Color.WHITE);
 			addMouseListener(this);
 		}
-		
+
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			render(g);
@@ -86,27 +87,27 @@ public class Board {
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
-			
+
 
 }
