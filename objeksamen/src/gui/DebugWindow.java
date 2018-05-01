@@ -23,8 +23,8 @@ public class DebugWindow extends JFrame implements Observer {
 	private int messagecount;
 	int count = 0;
 	private StyleToggler styleToggler = new StyleToggler();
-	SjakkGUI gui1 = new SjakkGUI("Sjakkbruker 1");
-	SjakkGUI gui2 = new SjakkGUI("Sjakkbruker 2");
+	SjakkGUI gui = new SjakkGUI("bruker 1");
+	
 	
 	
 	
@@ -82,8 +82,7 @@ public class DebugWindow extends JFrame implements Observer {
 						
 						System.out.println(brikke[kolonne]);
 						
-						gui1.setbrikke(rad,kolonne,brikke[kolonne]);
-						gui2.setbrikke(rad,kolonne,brikke[kolonne]);
+						gui.setbrikke(rad,kolonne,brikke[kolonne]);
 						
 					}
 				}
