@@ -15,101 +15,79 @@ import java.net.UnknownHostException;
 import javax.swing.*;
 
 import server.Message;
+import CreateMenu;
 
 
 public class SjakkGUI extends JFrame {
-	
-	
+
+
 	//private static final long serialVersionUID = 1L;
 	public static final int port = 4444;
     //private ServerSocket ss = null;
 	JButton[][] sjakkKnapper = new JButton[8][8];
-	SjakkGUI gui= this; 
+	SjakkGUI gui= this;
 	public GUIUpdater updater = new GUIUpdater(gui);
 	Socket socket = null;
 	ObjectOutputStream out = null;
 	ObjectInputStream in = null;
-	
-	public SjakkGUI(String user) {			
 
-		createMenuBar();
-		
+	public SjakkGUI(String user) {
+
+		new CreateMenu.createMenuBar();
+
 		ActionListener actionListener = new ActionListener()
 		 {
 		      public void actionPerformed(ActionEvent actionEvent) {
 		    	  updater.talkToStockfish("position startpos moves e2e4 \n");
 		    	  updater.talkToStockfish("d \n");
 		    	  send("position startpos moves e2e4 \n");
-		    	  	  
+
 		      }
 		    };
-		
-		    
-		    
+
+
+
 		String title = "Sjakk  " + user;
 		java.awt.Color blackColor = java.awt.Color.BLACK;
 		java.awt.Color whiteColor = java.awt.Color.WHITE;
-		
+
 		JButton chessButton = null;
-		int i = 1;// for å sette fargene på knappene
+		int i = 1;// for ï¿½ sette fargene pï¿½ knappene
 		for(int kolonne = 0; kolonne <= 7; kolonne++) {
 			for(int rad = 0; rad <= 7; rad++ ) {
 				chessButton = new JButton();
-				
+
 				if(i % 2 == 0) {
 					chessButton.setBackground(blackColor);
 					sjakkKnapper[kolonne][rad]= chessButton;
 					sjakkKnapper[kolonne][rad].addActionListener(actionListener);
 					add(chessButton);
 				}
-				else {		
+				else {
 					chessButton.setBackground(whiteColor);
 					sjakkKnapper[kolonne][rad]= chessButton;
 					sjakkKnapper[kolonne][rad].addActionListener(actionListener);
 					add(chessButton);
 				}
-				
+
 				if(i % 8 == 0) {
 					java.awt.Color temp = blackColor;
 					blackColor = whiteColor;
 					whiteColor = temp;
-					
+
 				}
 				i ++;
 			}
-			
+
 		}
-		
-		
+
 		this.setTitle(title);
 		this.setLayout(new GridLayout(8, 18));
 		this.setSize(650, 650);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
 	}
-	
-	/*
-	 public String søker() throws IOException, ClassNotFoundException {
-	       	socket = new Socket("localhost", 4444);
-	       	System.out.println("test");
-			InputStream       inps = null;
-			ObjectInputStream   in = null;
-			System.out.println("test1");
-	        inps = socket.getInputStream();
-	        System.out.println("test2");
-	        in = new ObjectInputStream(inps);
-	        System.out.println("test3");
-	        String inn = in.readObject().toString();
-	        socket.close();
-	        return inn;
-	 }
-	*/
-	
-	
-	
+
 	private void send(String send) {
 		OutputStream       outps = null;
 		ObjectOutputStream   out = null;
@@ -123,44 +101,4 @@ public class SjakkGUI extends JFrame {
 			socket.close();
 		} catch (Exception e) {System.out.println("synj");}
 	}
-		
-	
-	private void createMenuBar() {
-		JMenuBar menubar = new JMenuBar();
-		JMenu file = new JMenu("File");
-		JMenuItem startMenuItem = new JMenuItem("Start spill");
-		JMenuItem exitMenuItem = new JMenuItem("Lukk spill");
-		file.add(startMenuItem);
-		file.add(exitMenuItem);
-		menubar.add(file);
-		setJMenuBar(menubar);
-		
-		 exitMenuItem.addActionListener(new ActionListener() {
-		        public void actionPerformed(ActionEvent ev) {
-		        		try {
-							socket.close(); // i tillfelle den ikke blir lukke vanlig
-						} catch (IOException e) {} 
-		                System.exit(0);
-		        }
-		    });
-		 
-		 startMenuItem.addActionListener(new ActionListener() {
-		        public void actionPerformed(ActionEvent ev) {
-		        	updater.talkToStockfish("position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 \n");
-		        	updater.talkToStockfish("d \n");
-		        }
-		    });
-		
-	}
-	
-	
-
-
-	
-	
-	
-	
-
-	
-	
 }

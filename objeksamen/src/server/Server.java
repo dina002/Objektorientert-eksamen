@@ -14,14 +14,14 @@ public class Server {
     private ServerSocket ss = null;
 
     public Server(SjakkGUI gui) throws IOException, ClassNotFoundException{
-        
+
     	ss = new ServerSocket(port);
-        System.out.println("Systemet er klar til å godta tilkoblinger");
+        System.out.println("Systemet er klar til ï¿½ godta tilkoblinger");
         Socket socket = ss.accept();
-        System.out.println("Systemet er klar til å godta tilkoblinger1");
+        System.out.println("Systemet er klar til ï¿½ godta tilkoblinger1");
         InputStream       inps = null;
-		ObjectInputStream   in = null;
-		System.out.println("test1");
+				ObjectInputStream   in = null;
+				System.out.println("test1");
         inps = socket.getInputStream();
         System.out.println("test2");
         in = new ObjectInputStream(inps);
@@ -30,13 +30,12 @@ public class Server {
         System.out.println("inn" + inn);
         socket.close();
         gui.updater.updateGUI(inn);
-       
         gui.updater.updateGUI("d \n");
-        System.out.println("Systemet er klar til å godta tilkoblinger5");
-        
+        System.out.println("Systemet er klar til ï¿½ godta tilkoblinger5");
+
     }
-    
 
 
-    
+
+
 }
