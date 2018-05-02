@@ -22,10 +22,10 @@ public class SjakkGUI extends JFrame {
 	
 	//private static final long serialVersionUID = 1L;
 	public static final int port = 4444;
-    private ServerSocket ss = null;
+    //private ServerSocket ss = null;
 	JButton[][] sjakkKnapper = new JButton[8][8];
 	SjakkGUI gui= this; 
-	GUIUpdater updater = new GUIUpdater(gui);
+	public GUIUpdater updater = new GUIUpdater(gui);
 	Socket socket = null;
 	ObjectOutputStream out = null;
 	ObjectInputStream in = null;
@@ -34,24 +34,13 @@ public class SjakkGUI extends JFrame {
 
 		createMenuBar();
 		
-		
-		
 		ActionListener actionListener = new ActionListener()
 		 {
 		      public void actionPerformed(ActionEvent actionEvent) {
 		    	  updater.talkToStockfish("position startpos moves e2e4 \n");
-		    	  send("position startpos moves e2e4 \n d \n");
 		    	  updater.talkToStockfish("d \n");
-		    	  
-		    	  try {
-					updater.talkToStockfish(søker());
-				} catch (ClassNotFoundException e) {
-					System.out.println("oida detta fuka ikke");
-				} catch (IOException e) {
-					System.out.println("oida detta fuka ikke");
-				}
-		    	
-		    	  
+		    	  send("position startpos moves e2e4 \n");
+		    	  	  
 		      }
 		    };
 		
@@ -102,18 +91,22 @@ public class SjakkGUI extends JFrame {
 		
 	}
 	
-	
+	/*
 	 public String søker() throws IOException, ClassNotFoundException {
 	       	socket = new Socket("localhost", 4444);
+	       	System.out.println("test");
 			InputStream       inps = null;
 			ObjectInputStream   in = null;
+			System.out.println("test1");
 	        inps = socket.getInputStream();
+	        System.out.println("test2");
 	        in = new ObjectInputStream(inps);
+	        System.out.println("test3");
 	        String inn = in.readObject().toString();
 	        socket.close();
 	        return inn;
 	 }
-	
+	*/
 	
 	
 	
@@ -127,7 +120,7 @@ public class SjakkGUI extends JFrame {
 			outps = socket.getOutputStream();
 			out = new ObjectOutputStream(outps);
 			out.writeObject(send);
-			 socket.close();
+			socket.close();
 		} catch (Exception e) {System.out.println("synj");}
 	}
 		
@@ -155,14 +148,6 @@ public class SjakkGUI extends JFrame {
 		        public void actionPerformed(ActionEvent ev) {
 		        	updater.talkToStockfish("position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 \n");
 		        	updater.talkToStockfish("d \n");
-		        	
-		        	try {
-						updater.talkToStockfish(søker());
-					} catch (Exception e) {
-						System.out.println("oida detta fuka ikke dette er når man starter spillet");
-					}
-			    	
-		        	
 		        }
 		    });
 		

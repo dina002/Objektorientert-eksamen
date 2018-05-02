@@ -60,6 +60,7 @@ public class GUIUpdater implements Observer{
 	public void updateGUI(String arg) {
 		rensbrett();
 		
+		System.out.println(arg);
 		String[] linje = arg.split("\n");
 		String spill = null;
 		if(linje.length>=22) {

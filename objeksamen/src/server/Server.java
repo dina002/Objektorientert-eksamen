@@ -1,32 +1,42 @@
 package server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import gui.SjakkGUI;
+
 public class Server {
     public static final int port = 4444;
     private ServerSocket ss = null;
 
-    public void  runServer() throws IOException, ClassNotFoundException{
-        ss = new ServerSocket(port);
+    public Server(SjakkGUI gui) throws IOException, ClassNotFoundException{
+        
+    	ss = new ServerSocket(port);
         System.out.println("Systemet er klar til å godta tilkoblinger");
         Socket socket = ss.accept();
-        ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-              
-
-        os.writeObject(m);
-        socket.close(); 
+        System.out.println("Systemet er klar til å godta tilkoblinger1");
+        InputStream       inps = null;
+		ObjectInputStream   in = null;
+		System.out.println("test1");
+        inps = socket.getInputStream();
+        System.out.println("test2");
+        in = new ObjectInputStream(inps);
+        System.out.println("test3");
+        String inn = in.readObject().toString();
+        System.out.println("inn" + inn);
+        socket.close();
+        gui.updater.updateGUI(inn);
+       
+        gui.updater.updateGUI("d \n");
+        System.out.println("Systemet er klar til å godta tilkoblinger5");
+        
     }
+    
 
-    private void doSomething(Message m) {
-        m.setResult(new Integer(m.getA().intValue()*m.getB().intValue()));
-    }
 
-    public static void main(String[] args) throws ClassNotFoundException, IOException {
-        new Server().runServer();
-    }
+    
 }
