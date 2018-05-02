@@ -141,6 +141,7 @@ public class SjakkGUI extends JFrame implements Observer {
 		 
 		 startMenuItem.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent ev) {
+		        	talkToStockfish("position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 \n");
 		        	talkToStockfish("d \n");
 		        }
 		    });
@@ -154,11 +155,11 @@ public class SjakkGUI extends JFrame implements Observer {
 		System.out.println("nå kommer kostebilen");
 		Image img = null; 
 		
-		for (int index = 0; index >= 7; index++) { 
-			for (int index2 = 0; index2 >= 7; index2++) {
-				System.out.println(index + index2 + "nå ble jeg glad <3");
+		for (int index = 0; index <= 7; index++) { 
+			for (int index2 = 0; index2 <= 7; index2++) {
+				//System.out.println(index + "nå ble jeg glad <3");
 				JButton knapp = sjakkKnapper[index][index2]; 
-				knapp.setIcon(new ImageIcon(img));
+				knapp.setIcon(null);
 			}
 		}
 		
