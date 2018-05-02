@@ -22,7 +22,7 @@ public abstract class SuperStrategy extends Thread {
 					talkToStockfish(command);
 				}
 				else System.out.println("command was empty, was not sent to stockfish");
-				System.out.println("Command #" + ++count + " [" + command + "] length " + command.length());
+				//System.out.println("Command #" + ++count + " [" + command + "] length " + command.length());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

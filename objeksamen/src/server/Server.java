@@ -1,123 +1,32 @@
 package server;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
+
 import java.io.IOException;
-import java.net.InetAddress;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
-import javax.swing.text.Document;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+public class Server {
+    public static final int port = 4444;
+    private ServerSocket ss = null;
 
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-//we use the built-in Java library ServerSocket to create our server.
-//specify the IP using the local IPv4 address which is assigned by your router. Normally something like 192.168.XX.XXX.ï»¿
-public class Server implements Runnable {
-	
-	private String ip = "localhost";
-	private int port = 80;
-	private Scanner scanner = new Scanner(System.in);
-	private Thread thread;
-	private Socket socket;
-	private DataOutputStream dos;
-	private DataInputStream dis;
-	private boolean unableToCommunicateWithOpponent = false;
-	private ServerSocket serverSocket;
-	private boolean accepted = false;
-	private int errors = 0;
+    public void  runServer() throws IOException, ClassNotFoundException{
+        ss = new ServerSocket(port);
+        System.out.println("Systemet er klar til å godta tilkoblinger");
+        Socket socket = ss.accept();
+        ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
+              
 
-	
-	public Server() throws ParserConfigurationException, SAXException, IOException {
-		
-		File file = new File("/config/Config.xml");
-		try {
-			Scanner sc = new Scanner(file);
-			while(sc.hasNext()) {
-				String line = sc.nextLine();
-				String str[] = line.split(":");
-				String ip = str[0];
-				String port = str[1];
-			}
-		} catch (IOException e) {
-			while (port < 1 || port > 65535) {
-				System.out.println("The port you entered was invalid, please input another port: ");
-			}
-			
-		}
-		/*
-		System.out.println("Please input the IP: ");
-		ip = scanner.nextLine();
-		System.out.println("Please input the port: ");
-		port = scanner.nextInt();
-		while (port < 1 || port > 65535) {
-			System.out.println("The port you entered was invalid, please input another port: ");
-			port = scanner.nextInt();
-		
-		}
-		*/
-		
-		if (!connect()) initializeServer();
+        os.writeObject(m);
+        socket.close(); 
+    }
 
-		thread = new Thread(this, "Sjakk");
-		thread.start();
-	}
+    private void doSomething(Message m) {
+        m.setResult(new Integer(m.getA().intValue()*m.getB().intValue()));
+    }
 
-	private void listenForServerRequest() {
-		Socket socket = null;
-		try {
-			socket = serverSocket.accept();
-			dos = new DataOutputStream(socket.getOutputStream());
-			dis = new DataInputStream(socket.getInputStream());
-			accepted = true;
-			System.out.println("CLIENT HAS REQUESTED TO JOIN, AND WE HAVE ACCEPTED");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private boolean connect() {
-		try {
-			socket = new Socket(ip, port);
-			dos = new DataOutputStream(socket.getOutputStream());
-			dis = new DataInputStream(socket.getInputStream());
-			accepted = true;
-		} catch (IOException e) {
-			System.out.println("Unable to connect to the address: " + ip + ":" + port + " | Starting a server");
-			return false;
-		}
-		System.out.println("Successfully connected to the server.");
-		return true;
-	}
-	
-	private void initializeServer() {
-		try {
-			serverSocket = new ServerSocket(port, 8, InetAddress.getByName(ip));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	@Override
-	public void run() {
-		while (true) {
-			if (!accepted) {
-				listenForServerRequest();
-			}
-		}
-	}
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
+        new Server().runServer();
+    }
 }
-
-	
-	
-
-
