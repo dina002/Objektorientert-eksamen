@@ -50,46 +50,13 @@ public class DebugWindow extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Messagetype m = (Messagetype) arg;
-		updateGUI(m.getMsg());
-		System.out.println("start| \n" + m.getMsg() +"\n |slutt ");
+		gui.updateGUI(m.getMsg());
+		//System.out.println("start| \n" + m.getMsg() +"\n |slutt ");
 		write(" #" + ++messagecount + " " + m.getType());
 		write(m.getMsg() + "\n --------------");		
 	}
 	
-	public void updateGUI(String arg) {
-		String[] linje = arg.split("\n");
-		String spill = null;
-		if(linje.length>=22) {
-			for(int i =0;i<=21;i++) {
-				String[] del = linje[i].split(" ");
-				//System.out.println(del[0]); //for debugging 
-				if(del[0].equals("Fen:")) {
-					
-					spill= del[1];
-					
-				}
-			}
-			// System.out.println(spill); // for debugging
-			
-			String[] rader = spill.split("/");
-			for(int rad = 0;rad <= 7; rad++) {
-				String[] brikke = rader[rad].split("");
-				if(brikke.length <= 1) {
-					
-				}
-				else {
-					for(int kolonne = 0; (kolonne + 1) <= brikke.length ; kolonne++) {
-						
-						System.out.println(brikke[kolonne]);
-						
-						gui.setbrikke(rad,kolonne,brikke[kolonne]);
-						
-					}
-				}
-			}
-		}
-		
-	}
+	
 	
 	
 }

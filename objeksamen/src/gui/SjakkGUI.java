@@ -2,6 +2,7 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.Image;
 //import java.awt.Toolkit;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -13,8 +14,9 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class SjakkGUI extends JFrame {
 	
-	//public static final int squareCount = 64;
+	
 	JButton[][] sjakkKnapper = new JButton[8][8];
+	
 	
 	public SjakkGUI(String user) {		
 		
@@ -51,18 +53,98 @@ public class SjakkGUI extends JFrame {
 		}
 		
 		
-		
-		
-		
-		
 		this.setTitle(title);
 		this.setLayout(new GridLayout(8, 18));
 		this.setSize(650, 650);
 		this.setVisible(true);
+		/*JButton startButton = new JButton();
+		startButton.setVisible(true);
+		startButton.setText("Start");
+		add(startButton);
+		JButton sluttButton = new JButton();
+		sluttButton.setVisible(true);
+		sluttButton.setText("Start");
+		add(sluttButton);
+		*/
 		
 	}
 	
-	public void setbrikke(int rad,int kolonne , String typeBrikke) {
+	
+	public void rensbrett() { // funksjon for å reste brettet
+		System.out.println("nå kommer kostebilen");
+		Image img = null; 
+		
+		for (int index = 0; index >= 7; index++) { 
+			for (int index2 = 0; index2 >= 7; index2++) {
+				System.out.println(index + index2 + "nå ble jeg glad <3");
+				JButton knapp = sjakkKnapper[index][index2]; 
+				knapp.setIcon(new ImageIcon(img));
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	public void updateGUI(String arg) {
+		rensbrett();
+		
+		String[] linje = arg.split("\n");
+		String spill = null;
+		if(linje.length>=22) {
+			for(int i =0;i<=21;i++) {
+				String[] del = linje[i].split(" ");
+				//System.out.println(del[0]); //for debugging 
+				if(del[0].equals("Fen:")) {
+					
+					spill= del[1];
+					
+				}
+			}
+			//System.out.println(spill); // for debugging
+			
+			String[] rader = spill.split("/");
+			for(int rad = 0;rad <= 7; rad++) {
+				
+				//System.out.println(rader[rad]); // for debugging
+				
+				if(rader[rad].length() == 2) { // hvis det er kun en brikke på raden i starten eller slutten
+					String[] brikke = rader[rad].split("");
+					if(isNumeric(brikke[0])) {
+						setbrikke(rad,7,brikke[1]);
+					} else {
+						setbrikke(rad,0,brikke[0]);
+					}
+					
+				} 
+				else if(rader[rad].length() == 3) { // hvis det er kun en brikke midt på brettet
+					String[] brikke = rader[rad].split("");
+					int kolonne = Integer.parseInt(brikke[0]); 
+					setbrikke(rad,kolonne,brikke[1]);
+				} 
+				else { // hvis det er en hel rad men
+					String[] brikke = rader[rad].split("");
+					if(brikke.length <= 1) {
+						// da er det en tom rad
+					}
+					else {
+						for(int kolonne = 0; (kolonne + 1) <= brikke.length ; kolonne++) {
+												
+							setbrikke(rad,kolonne,brikke[kolonne]);
+							
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	public void setbrikke(int rad,int kolonne , String typeBrikke) { // funksjon som setter bildet til brikke, på riktig plass
 		Image img = null;
 		if(!isNumeric(typeBrikke)) {
 			try {
@@ -77,7 +159,6 @@ public class SjakkGUI extends JFrame {
 					img = ImageIO.read(getClass().getResource("/img/queenhvit.png"));
 					break;
 				case "r":
-					
 					img = ImageIO.read(getClass().getResource("/img/rookhvit.png"));
 					break;
 				case "b":
@@ -107,15 +188,10 @@ public class SjakkGUI extends JFrame {
 				}
 			} catch (Exception ex) {
 			    System.out.println(ex);
-			  }
-			
-			 
-			
-			
-			
+			}
 			JButton knapp = sjakkKnapper[rad][kolonne];
 			knapp.setIcon(new ImageIcon(img));
-		}
+		} 
 		
 		
 		

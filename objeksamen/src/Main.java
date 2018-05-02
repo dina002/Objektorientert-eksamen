@@ -25,13 +25,13 @@ public class Main implements Serializable{
 			e.printStackTrace();
 		}
 		//Board board = new Board();
-		SjakkGUI s = new SjakkGUI("User one");
-		new SjakkGUI("User two");
-		//new InputToStockfish();
+		//SjakkGUI s = new SjakkGUI("User one");
+		//new SjakkGUI("User two");
+		new InputToStockfish();
 		
-		ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("Test.dat"));
-        output.writeObject(s);
-        output.close();
+		//ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("Test.dat"));
+        //output.writeObject(s);
+        //output.close();
 		
 	}
 
