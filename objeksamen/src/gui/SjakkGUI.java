@@ -1,25 +1,62 @@
 package gui;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 //import java.awt.Toolkit;
 import java.io.IOException;
+import java.io.PipedReader;
+import java.io.PipedWriter;
+import java.io.PrintWriter;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.*;
 //import javafx.scene.paint.Color;
+
+import model.Messagetype;
+import model.processbuilderstrategy.StockfishProcess;
 
 
 @SuppressWarnings("serial")
-public class SjakkGUI extends JFrame {
+public class SjakkGUI extends JFrame implements Observer {
 	
 	
 	JButton[][] sjakkKnapper = new JButton[8][8];
 	
+	private PrintWriter pw;
+	//Inputpane inpane = new Inputpane() ;
+	SjakkGUI gui= this; 
 	
 	public SjakkGUI(String user) {		
+		createMenuBar();
+				 
+		try {
+    		
+			PipedWriter pipedwriter;
+			BufferedReader reader = new BufferedReader(new PipedReader(pipedwriter = new PipedWriter()) );
+			pw = new PrintWriter(pipedwriter);
+			
+			StockfishProcess stockfish = new StockfishProcess(reader);
+			stockfish.addObserver(gui);
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
+				
+		
+		ActionListener actionListener = new ActionListener()
+		 {
+		      public void actionPerformed(ActionEvent actionEvent) {
+		    	  talkToStockfish("position startpos moves e2e4 \n");
+		    	  talkToStockfish("d \n");
+		      }
+		    };
+		
+		    
 		String title = "Sjakk  " + user;
 		java.awt.Color blackColor = java.awt.Color.BLACK;
 		java.awt.Color whiteColor = java.awt.Color.WHITE;
@@ -33,11 +70,13 @@ public class SjakkGUI extends JFrame {
 				if(i % 2 == 0) {
 					chessButton.setBackground(blackColor);
 					sjakkKnapper[kolonne][rad]= chessButton;
+					sjakkKnapper[kolonne][rad].addActionListener(actionListener);
 					add(chessButton);
 				}
 				else {		
 					chessButton.setBackground(whiteColor);
 					sjakkKnapper[kolonne][rad]= chessButton;
+					sjakkKnapper[kolonne][rad].addActionListener(actionListener);
 					add(chessButton);
 				}
 				
@@ -57,6 +96,7 @@ public class SjakkGUI extends JFrame {
 		this.setLayout(new GridLayout(8, 18));
 		this.setSize(650, 650);
 		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*JButton startButton = new JButton();
 		startButton.setVisible(true);
 		startButton.setText("Start");
@@ -67,9 +107,49 @@ public class SjakkGUI extends JFrame {
 		add(sluttButton);
 		*/
 		
+		
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		Messagetype m = (Messagetype) arg;
+		updateGUI(m.getMsg());
+		System.out.println("straters å snakke med stokkfisken 2");
+		
 	}
 	
 	
+	private void talkToStockfish(String input) {
+		pw.print(input);
+	}
+	
+	private void createMenuBar() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu file = new JMenu("File");
+		JMenuItem startMenuItem = new JMenuItem("Start spill");
+		JMenuItem exitMenuItem = new JMenuItem("Lukk spill");
+		file.add(startMenuItem);
+		file.add(exitMenuItem);
+		menubar.add(file);
+		setJMenuBar(menubar);
+		
+		 exitMenuItem.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent ev) {
+		                System.exit(0);
+		        }
+		    });
+		 
+		 startMenuItem.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent ev) {
+		        	talkToStockfish("d \n");
+		        }
+		    });
+		
+	}
+	
+	
+
+
 	public void rensbrett() { // funksjon for å reste brettet
 		System.out.println("nå kommer kostebilen");
 		Image img = null; 

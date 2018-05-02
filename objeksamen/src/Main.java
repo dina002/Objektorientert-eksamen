@@ -8,7 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import gui.InputToStockfish;
 import gui.SjakkGUI;
 import server.Server;
 
@@ -25,9 +24,9 @@ public class Main implements Serializable{
 			e.printStackTrace();
 		}
 		//Board board = new Board();
-		//SjakkGUI s = new SjakkGUI("User one");
+		SjakkGUI s = new SjakkGUI("User one");
 		//new SjakkGUI("User two");
-		new InputToStockfish();
+		//new InputToStockfish();
 		
 		//ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("Test.dat"));
         //output.writeObject(s);
