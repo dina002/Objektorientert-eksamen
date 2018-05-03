@@ -14,14 +14,13 @@ import javax.swing.*;
 import gui.CreateMenu;
 
 
-public class SjakkGUI extends JFrame {
-
+public class SjakkGUI extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 	protected int port;
 	protected String ip;
     ServerSocket ss = null;
-	JButton[][] sjakkKnapper = new JButton[8][8];
+	JButton[][] sjakkKnapper = new JButton[8][8]; // en dobbelarray med de forskjellige brikkene
 	SjakkGUI gui= this;
 	public GUIUpdater updater = new GUIUpdater(gui);
 	public Socket socket = null;
@@ -31,16 +30,14 @@ public class SjakkGUI extends JFrame {
 	public SjakkGUI(String user,String ip,int port) {
 		this.port = port;
 		this.ip = ip;
-		new CreateMenu(updater,gui);
+		new CreateMenu(updater,gui); // lager menyen
 
 		ActionListener actionListener = new ActionListener()
 		 {
 		      public void actionPerformed(ActionEvent actionEvent) {
 		    	  updater.talkToStockfish("position startpos moves e2e4 \n");
 		    	  updater.talkToStockfish("d \n");
-		    	  send("position startpos moves e2e4 \n");
-		    	  motta();
-
+		    	  send("position startpos moves e2e4 \n"); // sender oppdatering til andre brukern
 		      }
 		    };
 
@@ -51,7 +48,7 @@ public class SjakkGUI extends JFrame {
 		java.awt.Color whiteColor = java.awt.Color.WHITE;
 
 		JButton chessButton = null;
-		int i = 1;// for ï¿½ sette fargene pï¿½ knappene
+		int i = 1;// for å sette fargene på knappene
 		for(int kolonne = 0; kolonne <= 7; kolonne++) {
 			for(int rad = 0; rad <= 7; rad++ ) {
 				chessButton = new JButton();
@@ -69,7 +66,7 @@ public class SjakkGUI extends JFrame {
 					add(chessButton);
 				}
 
-				if(i % 8 == 0) {
+				if(i % 8 == 0) { //bytter om på fargene for at de skal bytte om hver rad nedover
 					java.awt.Color temp = blackColor;
 					blackColor = whiteColor;
 					whiteColor = temp;
@@ -86,52 +83,44 @@ public class SjakkGUI extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		try {
+		try { // Dette starter tjernern
 			ss = new ServerSocket(port);
 		} catch(Exception e) { System.out.println(e +"prøver å lage server");}
 		
-		try {
-			System.out.println("welcome client");
-	        socket = new Socket(ip, port);
-	        System.out.println("Client connected");
-		} catch(Exception e) { System.out.println(e +"prøver å lage client");}
+		try { // dette kobler til tjernern som client
+			socket = new Socket(ip, port);
+	        } catch(Exception e) { System.out.println(e +"prøver å lage client");}
 		
 				
 	}
 
 	private void send(String send) {
-		OutputStream       outps = null;
-		ObjectOutputStream   out = null;
+		OutputStream outps = null;
+		ObjectOutputStream out = null;
 		try {
 			outps = socket.getOutputStream();
 			out = new ObjectOutputStream(outps);
 			out.writeObject(send);
 			System.out.println("dette ble sendt " + send);
-		} catch (Exception e) {System.out.println("synj");}
+		} catch (Exception e) {System.out.println("fikk ikke sent til tjener");}
 	}
-	
-	protected void motta() {
+
+	@Override
+	public void run() {
+		System.out.println("prøver å koble til client1");
+		InputStream inps = null;
+		ObjectInputStream ois = null;
+		String inn = "";
 		try {
-			
-	        InputStream       inps = null;
-			//ObjectInputStream   in = null;
-			String inn = "";
-			System.out.println("test1");
-	        inps = socket.getInputStream();
-	        System.out.println("test2");
+			inps = socket.getInputStream();
 	        BufferedInputStream bis = new BufferedInputStream(inps);
-	        System.out.println("test3");
-	        
-    		
+	        ois = new ObjectInputStream(bis);
 	        while( bis.available() < 0 ) {
-	        		ObjectInputStream ois = new ObjectInputStream(bis);
 	        		inn = ois.readObject().toString();
-	        	}
-			
-	        System.out.println("inn" + inn);
-	        
+	        	}	       
 	        updater.updateGUI(inn);
 	        updater.updateGUI("d \n");
-		} catch (Exception e) { System.out.println(e +"prøver å koble til server");}
+		} catch (Exception e) { System.out.println(e +"prøver å koble til client");}
+		
 	}
 }

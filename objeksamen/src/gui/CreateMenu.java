@@ -33,7 +33,7 @@ class CreateMenu{
             public void actionPerformed(ActionEvent ev) {
               updater.talkToStockfish("position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 \n");
               updater.talkToStockfish("d \n");
-              gui.motta();
+              //gui.motta();
             }
         });
      

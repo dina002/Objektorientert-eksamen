@@ -1,4 +1,4 @@
 <settings>
- <port>80</port>
+ <port>2222</port>
  <ip>127.0.0.1</ip>
-</settings>
+ <typeSpill>Demo</typeSpill></settings>

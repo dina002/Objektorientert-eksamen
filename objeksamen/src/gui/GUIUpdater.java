@@ -49,9 +49,9 @@ public class GUIUpdater implements Observer{
 	}
 	
 	public void rensbrett() { // funksjon for å reste brettet		
-		for (int index = 0; index <= 7; index++) { 
-			for (int index2 = 0; index2 <= 7; index2++) {
-				JButton knapp = gui.sjakkKnapper[index][index2]; 
+		for (int rad = 0; rad <= 7; rad++) { 
+			for (int kolonne = 0; kolonne <= 7; kolonne++) {
+				JButton knapp = gui.sjakkKnapper[rad][kolonne]; 
 				knapp.setIcon(null);
 			}
 		}
@@ -96,7 +96,7 @@ public class GUIUpdater implements Observer{
 				else { // hvis det er en hel rad men
 					String[] brikke = rader[rad].split("");
 					if(brikke.length <= 1) {
-						// da er det en tom rad
+						// da er det en tom rad, skal ikke sette noe her da
 					}
 					else {
 						for(int kolonne = 0; (kolonne + 1) <= brikke.length ; kolonne++) {
@@ -116,7 +116,7 @@ public class GUIUpdater implements Observer{
 	
 	public void setbrikke(int rad,int kolonne , String typeBrikke) { // funksjon som setter bildet til brikke, på riktig plass
 		Image img = null;
-		if(!isNumeric(typeBrikke)) {
+		if(!isNumeric(typeBrikke)) { 
 			try {
 				switch(typeBrikke) {
 				case "n":
