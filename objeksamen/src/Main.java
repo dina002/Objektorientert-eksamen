@@ -40,8 +40,8 @@ public class Main {
 		    }
 		switch (typeSpill){
 			case "Demo" :
-				new SjakkGUI("User one",ip,port);
-				new SjakkGUI("User two",ip,port);
+				new SjakkGUI("User one","localhost",port);
+				new SjakkGUI("User two","localhost",port);
 				break;
 			case "client":
 				new SjakkGUI("User one",ip,port);

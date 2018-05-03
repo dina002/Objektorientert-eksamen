@@ -72,7 +72,7 @@ public class SjakkGUI extends JFrame implements Runnable {
 					whiteColor = temp;
 
 				}
-				i ++;
+				i ++; 
 			}
 
 		}

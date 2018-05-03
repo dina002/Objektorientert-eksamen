@@ -48,7 +48,7 @@ public class GUIUpdater implements Observer{
 		pw.print(input);
 	}
 	
-	public void rensbrett() { // funksjon for å reste brettet		
+	public void rensBrett() { // funksjon for å reste brettet		
 		for (int rad = 0; rad <= 7; rad++) { 
 			for (int kolonne = 0; kolonne <= 7; kolonne++) {
 				JButton knapp = gui.sjakkKnapper[rad][kolonne]; 
@@ -58,7 +58,7 @@ public class GUIUpdater implements Observer{
 	}
 	
 	public void updateGUI(String arg) {
-		rensbrett();
+		rensBrett();
 		
 		//System.out.println(arg); for debugging
 		String[] linje = arg.split("\n");
@@ -66,32 +66,24 @@ public class GUIUpdater implements Observer{
 		if(linje.length>=22) {
 			for(int i =0;i<=21;i++) {
 				String[] del = linje[i].split(" ");
-				if(del[0].equals("Fen:")) {
-					
+				if(del[0].equals("Fen:")) {	
 					spill= del[1];
-					
 				}
-			}
-			
-			
+			}	
 			String[] rader = spill.split("/");
 			for(int rad = 0;rad <= 7; rad++) {
-				
-				
-				
 				if(rader[rad].length() == 2) { // hvis det er kun en brikke på raden i starten eller slutten
 					String[] brikke = rader[rad].split("");
 					if(isNumeric(brikke[0])) {
-						setbrikke(rad,7,brikke[1]);
+						setBrikke(rad,7,brikke[1]);
 					} else {
-						setbrikke(rad,0,brikke[0]);
+						setBrikke(rad,0,brikke[0]);
 					}
-					
 				} 
 				else if(rader[rad].length() == 3) { // hvis det er kun en brikke midt på brettet
 					String[] brikke = rader[rad].split("");
 					int kolonne = Integer.parseInt(brikke[0]); 
-					setbrikke(rad,kolonne,brikke[1]);
+					setBrikke(rad,kolonne,brikke[1]);
 				} 
 				else { // hvis det er en hel rad men
 					String[] brikke = rader[rad].split("");
@@ -101,7 +93,7 @@ public class GUIUpdater implements Observer{
 					else {
 						for(int kolonne = 0; (kolonne + 1) <= brikke.length ; kolonne++) {
 												
-							setbrikke(rad,kolonne,brikke[kolonne]);
+							setBrikke(rad,kolonne,brikke[kolonne]);
 							
 						}
 					}
@@ -114,7 +106,7 @@ public class GUIUpdater implements Observer{
 	
 	
 	
-	public void setbrikke(int rad,int kolonne , String typeBrikke) { // funksjon som setter bildet til brikke, på riktig plass
+	public void setBrikke(int rad,int kolonne , String typeBrikke) { // funksjon som setter bildet til brikke, på riktig plass
 		Image img = null;
 		if(!isNumeric(typeBrikke)) { 
 			try {
