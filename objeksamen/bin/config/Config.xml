@@ -1,1 +1,4 @@
-127.0.0.1:80
+<settings>
+ <port>80</port>
+ <ip>127.0.0.1</ip>
+</settings>
