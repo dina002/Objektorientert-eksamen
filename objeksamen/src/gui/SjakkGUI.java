@@ -2,38 +2,36 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-
 import javax.swing.*;
 
-import server.Message;
-import CreateMenu;
+import gui.CreateMenu;
 
 
 public class SjakkGUI extends JFrame {
 
 
-	//private static final long serialVersionUID = 1L;
-	public static final int port = 4444;
-    //private ServerSocket ss = null;
+	private static final long serialVersionUID = 1L;
+	protected int port;
+	protected String ip;
+    ServerSocket ss = null;
 	JButton[][] sjakkKnapper = new JButton[8][8];
 	SjakkGUI gui= this;
 	public GUIUpdater updater = new GUIUpdater(gui);
-	Socket socket = null;
+	public Socket socket = null;
 	ObjectOutputStream out = null;
 	ObjectInputStream in = null;
 
-	public SjakkGUI(String user) {
-
-		new CreateMenu.createMenuBar();
+	public SjakkGUI(String user,String ip,int port) {
+		this.port = port;
+		this.ip = ip;
+		new CreateMenu(updater,gui);
 
 		ActionListener actionListener = new ActionListener()
 		 {
@@ -41,6 +39,7 @@ public class SjakkGUI extends JFrame {
 		    	  updater.talkToStockfish("position startpos moves e2e4 \n");
 		    	  updater.talkToStockfish("d \n");
 		    	  send("position startpos moves e2e4 \n");
+		    	  motta();
 
 		      }
 		    };
@@ -86,19 +85,53 @@ public class SjakkGUI extends JFrame {
 		this.setSize(650, 650);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		try {
+			ss = new ServerSocket(port);
+		} catch(Exception e) { System.out.println(e +"prøver å lage server");}
+		
+		try {
+			System.out.println("welcome client");
+	        socket = new Socket(ip, port);
+	        System.out.println("Client connected");
+		} catch(Exception e) { System.out.println(e +"prøver å lage client");}
+		
+				
 	}
 
 	private void send(String send) {
 		OutputStream       outps = null;
 		ObjectOutputStream   out = null;
 		try {
-			System.out.println("welcome client");
-	        socket = new Socket("localhost", 4444);
-	        System.out.println("Client connected");
 			outps = socket.getOutputStream();
 			out = new ObjectOutputStream(outps);
 			out.writeObject(send);
-			socket.close();
+			System.out.println("dette ble sendt " + send);
 		} catch (Exception e) {System.out.println("synj");}
+	}
+	
+	protected void motta() {
+		try {
+			
+	        InputStream       inps = null;
+			//ObjectInputStream   in = null;
+			String inn = "";
+			System.out.println("test1");
+	        inps = socket.getInputStream();
+	        System.out.println("test2");
+	        BufferedInputStream bis = new BufferedInputStream(inps);
+	        System.out.println("test3");
+	        
+    		
+	        while( bis.available() < 0 ) {
+	        		ObjectInputStream ois = new ObjectInputStream(bis);
+	        		inn = ois.readObject().toString();
+	        	}
+			
+	        System.out.println("inn" + inn);
+	        
+	        updater.updateGUI(inn);
+	        updater.updateGUI("d \n");
+		} catch (Exception e) { System.out.println(e +"prøver å koble til server");}
 	}
 }

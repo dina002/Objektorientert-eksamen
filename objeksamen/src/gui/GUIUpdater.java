@@ -60,25 +60,24 @@ public class GUIUpdater implements Observer{
 	public void updateGUI(String arg) {
 		rensbrett();
 		
-		System.out.println(arg);
+		//System.out.println(arg); for debugging
 		String[] linje = arg.split("\n");
 		String spill = null;
 		if(linje.length>=22) {
 			for(int i =0;i<=21;i++) {
 				String[] del = linje[i].split(" ");
-				//System.out.println(del[0]); //for debugging 
 				if(del[0].equals("Fen:")) {
 					
 					spill= del[1];
 					
 				}
 			}
-			//System.out.println(spill); // for debugging
+			
 			
 			String[] rader = spill.split("/");
 			for(int rad = 0;rad <= 7; rad++) {
 				
-				//System.out.println(rader[rad]); // for debugging
+				
 				
 				if(rader[rad].length() == 2) { // hvis det er kun en brikke på raden i starten eller slutten
 					String[] brikke = rader[rad].split("");

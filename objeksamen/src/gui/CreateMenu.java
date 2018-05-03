@@ -1,6 +1,15 @@
+package gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 class CreateMenu{
 
-  private void createMenuBar() {
+	CreateMenu(GUIUpdater updater, SjakkGUI gui) {
     JMenuBar menubar = new JMenuBar();
     JMenu file = new JMenu("File");
     JMenuItem startMenuItem = new JMenuItem("Start spill");
@@ -8,14 +17,15 @@ class CreateMenu{
     file.add(startMenuItem);
     file.add(exitMenuItem);
     menubar.add(file);
-    setJMenuBar(menubar);
+    gui.setJMenuBar(menubar);
 
-     exitMenuItem.addActionListener(new ActionListener() {
+    exitMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-                try {
-              socket.close(); // i tillfelle den ikke blir lukke vanlig
-            } catch (IOException e) {}
-                    System.exit(0);
+            	try {
+            		gui.socket.close();
+            	}catch (Exception e) {}
+            	
+                 System.exit(0);
             }
         });
 
@@ -23,9 +33,12 @@ class CreateMenu{
             public void actionPerformed(ActionEvent ev) {
               updater.talkToStockfish("position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 \n");
               updater.talkToStockfish("d \n");
+              gui.motta();
             }
         });
+     
 
-
+  }
 
 }
+

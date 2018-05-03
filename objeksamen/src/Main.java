@@ -1,26 +1,17 @@
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.Socket;
-
-import server.Server;
 import gui.SjakkGUI;
 
 
-public class Main implements Serializable{
+public class Main {
 
-	public static void main(String[] args) throws IOException{
-		SjakkGUI s1 = new SjakkGUI("User one");
-		SjakkGUI s2 = new SjakkGUI("User two");
+	public static void main(String[] args) {
+		
+		String ip = "localhost";
+		int port = 222;
 		
 		
-		try {
-			new Server(s2);
-		} catch (Exception e) { System.out.println(e + "hei");
-		}
+		
+		new SjakkGUI("User one",ip,port);
+		new SjakkGUI("User two",ip,port);
 		
 		
 		
